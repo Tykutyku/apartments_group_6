@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Register System{% endblock %}
+
+{% block content %}
+<section class="main main--contact" style="text-align: center;">
+    <div class="welcome-section" style="text-align: center;">
+        <h2>Create an Account</h2>
+    </div>
+
+    <div class="contact-container" style="text-align: center;">
+        <div class="contact-form" style="text-align: center;">
+
+            {% for field, errors in form.errors.items() %}
+                <div class="flash">{{ field.capitalize() }}: {{ ', '.join(errors) }}</div>
+            {% endfor %}
+
+            <form method="POST" action="{{ url_for('register') }}" class="contact-form" style="text-align: center;">
+                {{ form.hidden_tag() }}
+            
+                <div class="form-group">
+                    <label for="username">Username:</label>
+                    {{ form.username(class="form-control") }}
+                </div>
+            
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    {{ form.email(class="form-control") }}
+                </div>
+            
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    {{ form.password(class="form-control") }}
+                </div>
+            
+                <div class="form-group">
+                    <label for="confirm_password">Confirm Password:</label>
+                    {{ form.confirm_password(class="form-control") }}
+                </div>
+            
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Register</button>
+                </div>
+            </form>
+
+            <p>Already have an account? <a href="{{ url_for('login') }}">Login here</a>.</p>
+        </div>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="flash">{{ messages[0] }}</div>
+            {% endif %}
+        {% endwith %}
+    </div>
+</section>
+{% endblock %}
