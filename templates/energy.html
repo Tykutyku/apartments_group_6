@@ -3,13 +3,14 @@
 {% block content %}
     <section class="main main--contact">
         <div class="welcome-section">
-            <h2>Here you can see your information!</h2>
+            <h2>Here you can see information about energy usage in apartment</h2>
         </div>
         {% if 'user' in session %}
-            
+            <iframe src="http://localhost:1880/ui" width="100%" height="600px" frameborder="0"></iframe>
         {% else %}
             <div class="general-information" style="text-align: center;">
                 <h2>Please log in to view your information.</h2>
             </div>
         {% endif %}
     </section>
+{% endblock %}
