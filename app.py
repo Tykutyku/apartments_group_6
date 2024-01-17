@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, flash, redirect, url_for, session, g
+from flask import Flask, render_template, request, flash, redirect, url_for, session, g, abort
 from pymongo import MongoClient
 from forms import ContactForm, RegistrationForm, LoginForm
 from flask_mail import Mail, Message
@@ -8,6 +8,8 @@ import os
 load_dotenv()
 
 app = Flask(__name__)
+
+allowed_ips = ['127.0.0.1', '192.168.1.1']
 
 app.secret_key = os.getenv('SECRET_KEY', 'default_secret_key')
 
@@ -21,6 +23,14 @@ app.config["MAIL_PASSWORD"] = os.getenv('MAIL_PASSWORD')
 app.config["MONGO_URI"] = os.getenv('MONGO_URI')
 
 mail.__init__(app)
+
+@app.before_request
+def restrict_by_ip():
+    client_ip = request.remote_addr
+
+    # If the client's IP is not in the allowed_ips list
+    if client_ip not in allowed_ips:
+        abort(403) 
 
 def get_mongo_client():
     if 'mongo_client' not in g:
