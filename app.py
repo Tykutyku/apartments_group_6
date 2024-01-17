@@ -26,7 +26,7 @@ mail.__init__(app)
 
 @app.before_request
 def restrict_by_ip():
-    client_ip = request.remote_addr
+    client_ip = request.headers.get('X-Forwarded-For', request.remote_addr)
 
     # If the client's IP is not in the allowed_ips list
     if client_ip not in allowed_ips:
