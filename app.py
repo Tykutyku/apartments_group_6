@@ -28,9 +28,12 @@ mail.__init__(app)
 def restrict_by_ip():
     client_ip = request.headers.get('X-Forwarded-For', request.remote_addr)
 
+    # Log the client IP and other information
+    app.logger.info(f"Client IP: {client_ip}, Forwarded: {request.headers.get('X-Forwarded-For')}, Remote: {request.remote_addr}")
+
     # If the client's IP is not in the allowed_ips list
     if client_ip not in allowed_ips:
-        abort(403) 
+        abort(403)
 
 def get_mongo_client():
     if 'mongo_client' not in g:
