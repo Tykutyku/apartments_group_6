@@ -9,7 +9,7 @@ load_dotenv()
 
 app = Flask(__name__)
 
-allowed_ips = ['127.0.0.1', '192.168.0.x']
+allowed_ips = ['127.0.0.1', '192.168.0.0/24']
 
 app.secret_key = os.getenv('SECRET_KEY', 'default_secret_key')
 
